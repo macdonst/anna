@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+                      "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta name="viewport" content="width=320; user-scalable=no" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>PhoneGap Events Example</title>
+
+    <link rel="stylesheet" href="bubble.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+    <script type="text/javascript" charset="utf-8" src="phonegap-1.1.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="SpeechRecognizer.js"></script>
+    <script type="text/javascript" charset="utf-8" src="tts.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Call onDeviceReady when PhoneGap is loaded.
+    //
+    // At this point, the document has loaded but phonegap.js has not.
+    // When PhoneGap is loaded and talking with the native device,
+    // it will call the event `deviceready`.
+    // 
+    function onLoad() {
+        console.log("Got body load event");
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    // PhoneGap is loaded and it is now safe to make calls PhoneGap methods
+    //
+    function onDeviceReady() {
+        console.log("Got on device ready event");
+        window.plugins.tts.startup(startupWin, fail);
+        window.plugins.speechrecognizer.init(speechReady, fail);
+    }
+    
+    function startupWin(result) {
+		// When result is equal to STARTED we are ready to play
+		if (result == TTS.STARTED) {
+			window.plugins.tts.getLanguage(win, fail);
+			//window.plugins.tts.speak("The text to speech service is ready");
+            /*
+            window.plugins.tts.isLanguageAvailable("en_US", function() {
+                addLang("en_US", "English (American)");
+            }, fail);
+            window.plugins.tts.isLanguageAvailable("en_GB", function() {
+                addLang("en_GB", "English (UK)");
+            }, fail);
+            window.plugins.tts.isLanguageAvailable("fr", function() {
+                addLang("fr", "French");
+            }, fail);
+            window.plugins.tts.isLanguageAvailable("de", function() {
+                addLang("de", "German");
+            }, fail);
+            window.plugins.tts.isLanguageAvailable("it", function() {
+                addLang("it", "Italian");
+            }, fail);
+            window.plugins.tts.isLanguageAvailable("es", function() {
+                addLang("es", "Spanish");
+            }, fail);
+            */
+		}
+    }
+	
+	function addLang(loc, lang) {
+		var langs = document.getElementById('langs');
+		var langOption = document.createElement("OPTION") 
+		langOption.innerText = lang; 
+		langOption.value = loc;
+        langs.options.add(langOption); 
+	}
+	
+	function changeLang() {
+		var yourSelect = document.getElementById('langs');
+        console.log("change lang to " + yourSelect);
+        window.plugins.tts.setLanguage(yourSelect.options[yourSelect.selectedIndex].value, win, fail);
+	}
+
+	function recognizeSpeech() {
+        var requestCode = 1234;
+        var maxMatches = 5;
+        var promptString = "Please say a command";
+        window.plugins.speechrecognizer.startRecognize(speechOk, speechFail, requestCode, maxMatches, promptString);
+    }
+
+    function speechOk(result) {
+        var match, respObj, requestCode;
+        if (result) {
+            respObj = JSON.parse(result);
+            console.log(result);
+            if (respObj) {
+                if (respObj.speechMatches.speechMatch.length > 0) {
+                    console.log("Best match: " + respObj.speechMatches.speechMatch[0]);
+                    speechSearch(respObj.speechMatches.speechMatch[0]);
+                }
+            }        
+        }
+    }
+
+    function speechFail(m) {
+        console.log("***********");
+        console.log("***********");
+        console.log("***********");
+        console.log("speechFail: " + m.toString());
+    }
+
+    function speechReady() {
+        console.log("Speech is okay");
+    }
+    
+	function win(result) {
+		console.log(result);
+	}
+    
+    function fail(result) {
+        console.log("Error = " + result);
+    }
+    
+    function speak() {
+        window.plugins.tts.speak(document.getElementById('playMe').value);
+    }
+    
+    function textSearch() {
+        console.log("In text search");
+        var searchTerm = document.getElementById("question").value;
+        doSearch(searchTerm);
+    }
+    
+    function speechSearch(question) {
+        console.log("In speech search");
+        doSearch(question);
+    }
+    
+    function doSearch(searchTerm) {
+        console.log("In search");
+        var qDiv = document.getElementById("conversation");
+        qDiv.innerHTML = qDiv.innerHTML + '<p class="triangle-isosceles">' + searchTerm + '</p>';
+        console.log("The question is = " + searchTerm);
+        var request = new XMLHttpRequest();
+        request.open("GET", "http://api.wolframalpha.com/v2/query?input=" + searchTerm + "&appid=259X9V-K55JYVAXP6");
+        request.onreadystatechange = function() {
+            if(request.readyState == 4) {
+                console.log("*"+request.responseText+"*");
+                var querySuccess = request.responseXML.getElementsByTagName("queryresult")[0].getAttributeNode("success").nodeValue;
+                if (querySuccess == "true") {
+                    var results = request.responseXML.getElementsByTagName("pod");
+                    for (i=0; i<results.length; i++) {
+                        if (results[i].getAttributeNode("primary") != null && results[i].getAttributeNode("primary").nodeValue == "true") {
+                            var res = results[i].getElementsByTagName("subpod")[0].getElementsByTagName("plaintext")[0].childNodes[0].nodeValue;
+                            qDiv.innerHTML = qDiv.innerHTML + '<p class="triangle-right top">' + res + '</p>';
+                            window.plugins.tts.speak(res);
+                            break;
+                        }
+                    }
+                } else {
+                    qDiv.innerHTML = qDiv.innerHTML + "<p class='triangle-right top'>I'm sorry I didn't understand.</p>";
+                    window.plugins.tts.speak("I'm sorry I didn't understand");
+                }
+            }
+        }
+        console.log("asking wolfram alpha");
+        request.send();
+    }
+    </script>
+  </head>
+  <body onload="onLoad()">
+	<!-- input id="question" type="text"/>
+    <button type="button" onClick="doSearch();">Search</button-->
+    <div onclick="recognizeSpeech();" style="text-align: center; background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#999));">
+        <img src="images/record.png"/>
+    </div>
+    <!-- button type="button" onClick="recognizeSpeech();">Speech</button -->
+    <div id="conversation"></div>
+  </body>
+</html>
