@@ -14,7 +14,7 @@
     <script type="text/javascript" charset="utf-8">
 
     // insert your wolfram alpha app id here
-    var appid = "xxxxxxxxxxxxxxx";
+    var appid = "xxxxxx";
 
     // Call onDeviceReady when PhoneGap is loaded.
     //
@@ -148,6 +148,7 @@
                     for (i=0; i<results.length; i++) {
                         if (results[i].getAttributeNode("primary") != null && results[i].getAttributeNode("primary").nodeValue == "true") {
                             var res = results[i].getElementsByTagName("subpod")[0].getElementsByTagName("plaintext")[0].childNodes[0].nodeValue;
+                            res = res.replace(/\|/g, "");
                             qDiv.innerHTML = qDiv.innerHTML + '<p class="triangle-right top">' + res + '</p>';
                             window.plugins.tts.speak(res);
                             break;

@@ -13,6 +13,7 @@ package com.urbtek.phonegap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -120,9 +121,10 @@ public class SpeechRecognizer extends Plugin {
         catch (Exception e) {
             Log.e(LOG_TAG, String.format("startSpeechRecognitionActivity exception: %s", e.toString()));
         }
-        
+                        
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
         if (maxMatches > 0)
             intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, maxMatches);
         if (!prompt.isEmpty())
@@ -138,6 +140,21 @@ public class SpeechRecognizer extends Plugin {
         if (resultCode == Activity.RESULT_OK) {
             // Fill the list view with the strings the recognizer thought it could have heard
             ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            float[] confidence = data.getFloatArrayExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES);
+            
+            if (confidence != null) {
+                Log.d(LOG_TAG, "confidence length "+ confidence.length);
+                Iterator<String> iterator = matches.iterator();
+                int i = 0;
+                while(iterator.hasNext()) {
+                    Log.d(LOG_TAG, "Match = " + iterator.next() + " confidence = " + confidence[i]);
+                    i++;
+                }
+            } else {
+                Log.d(LOG_TAG, "No confidence" +
+                		"");
+            }
+            
             ReturnSpeechResults(requestCode, matches);
         }
         else {
