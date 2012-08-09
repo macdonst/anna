@@ -39,6 +39,9 @@
         // add resume listenter
         document.addEventListener("resume", onResume, false);
 
+        // add search button listenter
+        document.addEventListener("searchbutton", recognizeSpeech, false);
+
         // check for WolframAlpha key
         window.plugins.applicationPreferences.get("api_key", gotKey);
     }
