@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Iris Settings"
+        android:key="iris_settings">
+
+        <EditTextPreference
+            android:key="api_key"
+            android:title="Wolfram Alpha API Key"
+            android:summary="Enter your Wolfram Alpha API key"
+            android:dialogTitle="Wolfram Alpha API Key"
+            android:dialogMessage="Provide a key"
+            android:defaultValue="" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
