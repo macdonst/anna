@@ -17,6 +17,7 @@
 
     // placeholder for Wolfram Alpha API key
     var appid = null;
+    var isTTS = true;
 
     // Call onDeviceReady when PhoneGap is loaded.
     //
@@ -33,17 +34,18 @@
     //
     function onDeviceReady() {
         console.log("Got on device ready event");
-        window.plugins.tts.startup(startupWin, fail);
-        window.plugins.speechrecognizer.init(speechReady, fail);
-
-        // add resume listenter
-        document.addEventListener("resume", onResume, false);
-
-        // add search button listener
-        document.addEventListener("searchbutton", recognizeSpeech, false);
-
-        // check for WolframAlpha key
-        window.plugins.applicationPreferences.get("api_key", gotKey);
+        window.plugins.tts.startup(startupWin, function(){
+            console.log("There is no TTS service");
+            isTTS = false;
+        });
+        window.plugins.speechrecognizer.init(speechReady, function() {
+            console.log("There is no Spech Rec service");
+            navigator.notification.alert("There is no speech recognition service available.",
+                function() {
+                    navigator.app.exitApp();
+                }, "No Speech Recognition", "Exit");
+            isSpeech = false;
+        });
     }
 
     function onResume() {
@@ -54,7 +56,10 @@
             if (value != null && value != "") {
                 appid = value;
             } else {
-                alert("Set a key bro");
+                navigator.notification.alert("A WolframAlpha API key is required.",
+                    function() {
+                        navigator.app.exitApp();
+                    }, "API Key", "Exit");
             }
         });
     }
@@ -103,7 +108,7 @@
             if (respObj) {
                 if (respObj.speechMatches.speechMatch.length > 0) {
                     console.log("Best match: " + respObj.speechMatches.speechMatch[0]);
-                    speechSearch(respObj.speechMatches.speechMatch[0]);
+                    doSearch(respObj.speechMatches.speechMatch[0]);
                 }
             }
         }
@@ -118,6 +123,15 @@
 
     function speechReady() {
         console.log("Speech is okay");
+
+        // add resume listenter
+        document.addEventListener("resume", onResume, false);
+
+        // add search button listener
+        document.addEventListener("searchbutton", recognizeSpeech, false);
+
+        // check for WolframAlpha key
+        window.plugins.applicationPreferences.get("api_key", gotKey);
     }
 
     function win(result) {
@@ -128,9 +142,10 @@
         console.log("Error = " + result);
     }
 
-    function speechSearch(question) {
-        console.log("In speech search");
-        doSearch(question);
+    function speak(msg) {
+        if (isTTS) {
+            window.plugins.tts.speak(msg);
+        }
     }
 
     function doSearch(searchTerm) {
@@ -153,13 +168,14 @@
                             res = res.replace(/\|/g, "");
                             qDiv.innerHTML = qDiv.innerHTML + '<p class="triangle-right top">' + res + '</p>';
                             window.scrollTo(0, document.body.scrollHeight);
-                            window.plugins.tts.speak(res);
+                            speak(res);
                             break;
                         }
                     }
                 } else {
                     qDiv.innerHTML = qDiv.innerHTML + "<p class='triangle-right top'>I'm sorry I didn't understand.</p>";
-                    window.plugins.tts.speak("I'm sorry I didn't understand");
+                    window.scrollTo(0, document.body.scrollHeight);
+                    speak("I'm sorry I didn't understand");
                 }
             }
         }
