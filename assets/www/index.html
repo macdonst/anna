@@ -39,7 +39,7 @@
         // add resume listenter
         document.addEventListener("resume", onResume, false);
 
-        // add search button listenter
+        // add search button listener
         document.addEventListener("searchbutton", recognizeSpeech, false);
 
         // check for WolframAlpha key
@@ -137,6 +137,7 @@
         console.log("In search");
         var qDiv = document.getElementById("conversation");
         qDiv.innerHTML = qDiv.innerHTML + '<p class="triangle-isosceles">' + searchTerm + '</p>';
+        window.scrollTo(0, document.body.scrollHeight);
         console.log("The question is = " + searchTerm);
         var request = new XMLHttpRequest();
         request.open("GET", "http://api.wolframalpha.com/v2/query?input=" + searchTerm + "&appid="+appid);
@@ -151,6 +152,7 @@
                             var res = results[i].getElementsByTagName("subpod")[0].getElementsByTagName("plaintext")[0].childNodes[0].nodeValue;
                             res = res.replace(/\|/g, "");
                             qDiv.innerHTML = qDiv.innerHTML + '<p class="triangle-right top">' + res + '</p>';
+                            window.scrollTo(0, document.body.scrollHeight);
                             window.plugins.tts.speak(res);
                             break;
                         }
@@ -170,6 +172,6 @@
     <div onclick="recognizeSpeech();" class="header">
         <img class="irisBtn" src="images/record.png"/>
     </div>
-    <div id="conversation"></div>
+    <div id="conversation" class="qanda"></div>
   </body>
 </html>

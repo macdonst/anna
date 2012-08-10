@@ -1,10 +1,16 @@
+body {
+    margin: 0;
+}
+
 .header {
     text-align: center;
     background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#999));
     height: 58px;
-    right: 0px;
+    left: 0px;
     top: 0px;
     width: 100%;
+    position: fixed;
+    z-index: 2;
 }
 
 .irisBtn {
@@ -12,4 +18,11 @@
   vertical-align:middle;
   margin:auto;
   padding: 5px;
+}
+
+.qanda {
+    padding: 0.5em;
+    position: relative;
+    top: 58px;
+    z-index: 1;
 }
