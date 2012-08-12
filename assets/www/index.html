@@ -62,6 +62,15 @@
                     }, "API Key", "Exit");
             }
         });
+
+        // Check to see if TTS should be used
+        window.plugins.applicationPreferences.get("use_tts", function(value) {
+            if (value == "false") {
+                isTTS = false;
+            } else {
+                isTTS = true;
+            }
+        });
     }
 
     function gotKey(value) {

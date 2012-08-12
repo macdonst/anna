@@ -14,6 +14,13 @@
             android:dialogMessage="Provide a key"
             android:defaultValue="" />
 
+        <CheckBoxPreference
+            android:key="use_tts"
+            android:summary="Read answers using text to speech"
+            android:title="Use TTS"
+            android:defaultValue="true"
+        />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
