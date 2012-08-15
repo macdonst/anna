@@ -2,8 +2,4 @@ In order to start using this application you'll need to get a Wolfram Alpha API 
 
 http://products.wolframalpha.com/api/
 
-Once you have an api key just open up index.html and replace:
-
-    var appid = "xxxxxxx";
-
-with your api key.
+Once you have an api key run the application and you will be taken to the settings page to enter the key.
