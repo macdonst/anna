@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public class IrisActivity extends DroidGap {
+    private static final String COM_SIMONMACDONALD_IRIS_QUICK_PREFS_ACTIVITY = "com.simonmacdonald.iris.QuickPrefsActivity";
     private static final String LOG_TAG = "Iris";
     private static final String NO_PREFERENCE_ACTIVITY = null;
 
@@ -18,6 +19,8 @@ public class IrisActivity extends DroidGap {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.init();
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD)
+            this.appView.setOverScrollMode(appView.OVER_SCROLL_NEVER);
         super.loadUrl("file:///android_asset/www/index.html");
     }
 
@@ -33,8 +36,7 @@ public class IrisActivity extends DroidGap {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.settings:
-            Log.d(LOG_TAG, "fire settings page");
-            String activityName = "com.simonmacdonald.iris.QuickPrefsActivity";
+            String activityName = COM_SIMONMACDONALD_IRIS_QUICK_PREFS_ACTIVITY;
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setClassName(this.getContext(), activityName);
             this.startActivity(intent);
