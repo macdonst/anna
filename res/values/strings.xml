@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, IrisActivity!</string>
-    <string name="app_name">Iris</string>
+    <string name="app_name">Anna</string>
     <string name="settings">Settings</string>
 
 </resources>

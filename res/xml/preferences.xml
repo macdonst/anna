@@ -3,8 +3,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Iris Settings"
-        android:key="iris_settings">
+        android:title="Anna Settings"
+        android:key="anna_settings">
 
         <EditTextPreference
             android:key="api_key"

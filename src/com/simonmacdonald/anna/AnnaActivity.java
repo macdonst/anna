@@ -1,4 +1,4 @@
-package com.simonmacdonald.iris;
+package com.simonmacdonald.anna;
 
 import org.apache.cordova.DroidGap;
 
@@ -9,10 +9,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import com.simonmacdonald.anna.R;
 
-public class IrisActivity extends DroidGap {
-    private static final String COM_SIMONMACDONALD_IRIS_QUICK_PREFS_ACTIVITY = "com.simonmacdonald.iris.QuickPrefsActivity";
-    private static final String LOG_TAG = "Iris";
+public class AnnaActivity extends DroidGap {
+    private static final String COM_SIMONMACDONALD_ANNA_QUICK_PREFS_ACTIVITY = "com.simonmacdonald.anna.QuickPrefsActivity";
+    private static final String LOG_TAG = "Anna";
     private static final String NO_PREFERENCE_ACTIVITY = null;
 
     @Override
@@ -27,7 +28,7 @@ public class IrisActivity extends DroidGap {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.iris_menu, menu);
+        inflater.inflate(R.menu.anna_menu, menu);
         return true;
     }
 
@@ -36,7 +37,7 @@ public class IrisActivity extends DroidGap {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.settings:
-            String activityName = COM_SIMONMACDONALD_IRIS_QUICK_PREFS_ACTIVITY;
+            String activityName = COM_SIMONMACDONALD_ANNA_QUICK_PREFS_ACTIVITY;
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setClassName(this.getContext(), activityName);
             this.startActivity(intent);

@@ -6,7 +6,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>PhoneGap Events Example</title>
 
-    <link rel="stylesheet" href="iris.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="anna.css" type="text/css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="bubble.css" type="text/css" media="screen" title="no title" charset="utf-8">
 
     <script type="text/javascript" charset="utf-8" src="cordova.android.js"></script>
@@ -56,10 +56,16 @@
             if (value != null && value != "") {
                 appid = value;
             } else {
-                navigator.notification.alert("A WolframAlpha API key is required.",
-                    function() {
-                        navigator.app.exitApp();
-                    }, "API Key", "Exit");
+                navigator.notification.confirm("A WolframAlpha API key is required.",
+                    function(btnIdx) {
+                    	if (btnIdx == 1) {
+                    		document.location="https://developer.wolframalpha.com/portal/apisignup.html";
+                    	} else if (btnIdx == 2) {
+                    		window.plugins.applicationPreferences.show("com.simonmacdonald.anna.QuickPrefsActivity");
+                    	} else {
+                        	navigator.app.exitApp();
+                        }
+                    }, "API Key", "Get Key,Enter Key,Exit");
             }
         });
 
@@ -77,7 +83,7 @@
         if (value != null && value != "") {
             appid = value;
         } else {
-            window.plugins.applicationPreferences.show("com.simonmacdonald.iris.QuickPrefsActivity");
+            window.plugins.applicationPreferences.show("com.simonmacdonald.anna.QuickPrefsActivity");
         }
     }
 
@@ -195,7 +201,7 @@
   </head>
   <body onload="onLoad()">
     <div onclick="recognizeSpeech();" class="header">
-        <img class="irisBtn" src="images/record.png"/>
+        <img class="annaBtn" src="images/record.png"/>
     </div>
     <div id="conversation" class="qanda"></div>
   </body>

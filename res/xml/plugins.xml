@@ -13,5 +13,5 @@
     <plugin name="Storage" value="org.apache.cordova.Storage"/>
     <plugin name="TTS" value="com.phonegap.plugins.speech.TTS"/>
     <plugin name="SpeechRecognizer" value="com.urbtek.phonegap.SpeechRecognizer"/>
-    <plugin name="applicationPreferences" value="com.simonmacdonald.iris.AppPreferences"/>
+    <plugin name="applicationPreferences" value="com.simonmacdonald.anna.AppPreferences"/>
 </plugins>

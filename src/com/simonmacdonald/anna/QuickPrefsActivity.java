@@ -1,7 +1,8 @@
-package com.simonmacdonald.iris;
+package com.simonmacdonald.anna;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import com.simonmacdonald.anna.R;
 
 public class QuickPrefsActivity extends PreferenceActivity {
 

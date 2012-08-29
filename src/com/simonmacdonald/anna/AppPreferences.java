@@ -1,4 +1,4 @@
-package com.simonmacdonald.iris;
+package com.simonmacdonald.anna;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import com.simonmacdonald.anna.R;
 
 public class AppPreferences extends Plugin {
 
