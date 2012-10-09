@@ -14,4 +14,6 @@
     <plugin name="TTS" value="com.phonegap.plugins.speech.TTS"/>
     <plugin name="SpeechRecognizer" value="com.urbtek.phonegap.SpeechRecognizer"/>
     <plugin name="applicationPreferences" value="com.simonmacdonald.anna.AppPreferences"/>
+    <plugin name="SmsPlugin" value="net.practicaldeveloper.phonegap.plugins.SmsPlugin"/>
+    <plugin name="ChildBrowser" value="com.phonegap.plugins.childBrowser.ChildBrowser"/>
 </plugins>
