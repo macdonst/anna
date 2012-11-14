@@ -355,7 +355,7 @@ function sendText(searchTerm) {
             Log.d(LOG_TAG, "Found: " + contacts[i].displayName);
         }
 // We'd send the SMS here if we have a phone number for the contact        
-//    sms.send("number", message, function() {
+//    sms.send(contacts[i].phoneNumbers[0], message, function() {
 //        console.log("message sent");
 //    }, function() {
 //        console.log("message not sent");
